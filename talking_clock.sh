@@ -8,16 +8,17 @@
 
 # Get time
 hour=$(date +%H)
+hour=$(echo $hour | sed 's/^0*//')
 minute=$(date +%M)
 
 # Get AM or PM
-if [ $hour > 11 ]
+if [ $hour gt 11 ]
     then
         # Set PM
         ampm="PM"
 
         # Get 12 hour clock hour
-        if [ $hour != 12 ]
+        if [ $hour ne 12 ]
             then
                 hour=$(($hour-12))
         fi
@@ -27,7 +28,7 @@ else
 fi
 
 # Generate sound file
-sudo pico2wave -w /home/pi/Desktop/time.wav "$hour, $minute, $ampm" > /dev/null 2>&1
+sudo pico2wave -w /home/pi/Desktop/time.wav "The current hour is $hour, $minute, $ampm" > /dev/null 2>&1
 
 # Play sound
 sudo mplayer -af volume=4.8 /home/pi/Desktop/time.wav > /dev/null 2>&1
